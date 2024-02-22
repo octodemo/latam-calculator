@@ -2,7 +2,7 @@ name: AppSec Vulnerability Scan (SAST & DAST)
 
 on:
   push:
-    branches: [ main ]
+    branches: [ master ]
   workflow_dispatch:
     inputs:
         core_language:
@@ -10,10 +10,10 @@ on:
           required: true
           type: string
         
-        deploy_url:
-          description: The acessible URL where the application is deployed.
-          required: false
-          type: string
+        # deploy_url:
+        #   description: The acessible URL where the application is deployed.
+        #   required: false
+        #   type: string
   
 jobs:
   SAST:
@@ -29,7 +29,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        language: [ '${{ inputs.core_language }}' ]
+        language: [ 'javascript' ]
         # CodeQL supports [ 'cpp', 'csharp', 'go', 'java', 'javascript', 'python' ]
         # Learn more:
         # https://docs.github.com/en/free-pro-team@latest/github/finding-security-vulnerabilities-and-errors-in-your-code/configuring-code-scanning#changing-the-languages-that-are-analyzed
@@ -42,7 +42,7 @@ jobs:
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v2
       with:
-        languages: ${{ inputs.core_language }}
+        languages: 'javascript'
         # queries: security-and-quality
         # If you wish to specify custom queries, you can do so here or in a config file.
         # By default, queries listed here will override any specified in a config file.
@@ -60,12 +60,14 @@ jobs:
   DAST:
     name: DAST 🔍
 
-    if: ${{ inputs.deploy_url }}
+    # if: ${{ inputs.deploy_url }}
 
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v3
+        with:
+          ref: master
       - name: ZAP Scan
         uses: zaproxy/action-baseline@v0.11.0
         with:
