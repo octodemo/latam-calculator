@@ -36,11 +36,11 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v4
+      uses: actions/checkout@v7
 
     # Initializes the CodeQL tools for scanning.
     - name: Initialize CodeQL
-      uses: github/codeql-action/init@v3
+      uses: github/codeql-action/init@v4
       with:
         languages: 'javascript'
         # queries: security-and-quality
@@ -49,13 +49,8 @@ jobs:
         # Prefix the list here with "+" to use these queries and those in the config file.
         # queries: ./path/to/local/query, your-org/your-repo/queries@main
 
-    # Autobuild attempts to build any compiled languages  (C/C++, C#, or Java).
-    # If this step fails, then you should remove it and run the build manually (see below)
-    - name: Autobuild
-      uses: github/codeql-action/autobuild@v3
-
     - name: Perform CodeQL Analysis
-      uses: github/codeql-action/analyze@v3
+      uses: github/codeql-action/analyze@v4
 
   DAST:
     name: DAST 🔍
@@ -102,11 +97,11 @@ jobs:
       - name: Create sarif file from zaproxy results
         uses: SvanBoxel/zaproxy-to-ghas@main
       - name: Upload SARIF file
-        uses: github/codeql-action/upload-sarif@v3
+        uses: github/codeql-action/upload-sarif@v7
         with:
           sarif_file: results.sarif
           
       - name: Upload CodeQL Analysis
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v7
         with:
           path: results.sarif
