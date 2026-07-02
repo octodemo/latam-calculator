@@ -24,6 +24,8 @@ jobs:
     parameters:
       template: "sarif-json"
       reportDir: "/zap/wrk/"
-      reportFile: "results.sarif"
+      # The sarif-json template always appends a ".json" extension to reportFile,
+      # so the final report is written to /zap/wrk/results.json ($GITHUB_WORKSPACE/results.json).
+      reportFile: "results"
       reportTitle: "ZAP Scan Report"
       reportDescription: "Baseline DAST scan of latam-calculator"
